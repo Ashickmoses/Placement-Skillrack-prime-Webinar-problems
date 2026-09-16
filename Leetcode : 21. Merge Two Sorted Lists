@@ -1,0 +1,69 @@
+import java.util.*;
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) {
+        this.val=val;
+        this.next=null;
+    }
+}
+class Main {
+    public static ListNode mergeTwoLists(ListNode list1,ListNode list2) {
+        ListNode d=new ListNode(0);
+        ListNode temp=d;
+        while(list1!=null && list2!=null){
+            if(list1.val<=list2.val){
+                temp.next=list1;
+                list1=list1.next;
+            }
+            else{
+                temp.next=list2;
+                list2=list2.next;
+            }
+            temp=temp.next;
+        }
+        if(list1!=null){
+            temp.next=list1;
+        }
+        if(list2!=null){
+            temp.next=list2;
+        }
+        return d.next;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        ListNode list1=null;
+        ListNode temp1=null;
+        for(int i=0;i<n;i++){
+            ListNode node=new ListNode(sc.nextInt());
+            if(list1==null){
+                list1=node;
+                temp1=node;
+            }
+            else{
+                temp1.next=node;
+                temp1=node;
+            }
+        }
+        int m=sc.nextInt();
+        ListNode list2=null;
+        ListNode temp2=null;
+        for(int i=0;i<m;i++){
+            ListNode node=new ListNode(sc.nextInt());
+            if(list2==null){
+                list2=node;
+                temp2=node;
+            }
+            else{
+                temp2.next=node;
+                temp2=node;
+            }
+        }
+        ListNode ans=mergeTwoLists(list1,list2);
+        while(ans!=null){
+            System.out.print(ans.val+" ");
+            ans=ans.next;
+        }
+    }
+}
