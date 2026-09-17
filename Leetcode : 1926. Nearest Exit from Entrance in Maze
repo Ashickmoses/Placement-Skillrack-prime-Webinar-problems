@@ -1,0 +1,53 @@
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int R = sc.nextInt();
+        int C = sc.nextInt();
+        char[][] maze = new char[R][C];
+        for (int i = 0; i < R; i++) {
+            String s = sc.next();
+            for (int j = 0; j < C; j++) {
+                maze[i][j] = s.charAt(j);
+            }
+        }
+        int[] entrance = new int[2];
+        entrance[0] = sc.nextInt();
+        entrance[1] = sc.nextInt();
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{
+            entrance[0],
+            entrance[1],
+            0
+        });
+        int[] diff = {0, 1, 0, -1, 0};
+        maze[entrance[0]][entrance[1]] = '+';
+        int ans = -1;
+        while (!q.isEmpty()) {
+            int[] a = q.poll();
+            int row = a[0];
+            int col = a[1];
+            int move = a[2];
+            for (int i = 0; i < 4; i++) {
+                int ar = row + diff[i];
+                int ac = col + diff[i + 1];
+                if (ar >= 0 && ar < R &&
+                    ac >= 0 && ac < C &&
+                    maze[ar][ac] == '.') {
+                    if (ar == 0 || ar == R - 1 ||
+                        ac == 0 || ac == C - 1) {
+                        ans = move + 1;
+                        break;
+                    }
+                    maze[ar][ac] = '+';
+                    q.add(new int[]{ar,ac,move+1});
+                }
+            }
+            if (ans != -1) {
+                break;
+            }
+        }
+        System.out.println(ans);
+        sc.close();
+    }
+}
