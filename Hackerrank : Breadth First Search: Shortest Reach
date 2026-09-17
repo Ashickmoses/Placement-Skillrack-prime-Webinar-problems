@@ -1,0 +1,55 @@
+import java.util.*;
+class Main{
+   public static List<Integer> bfs(int n,int m,List<List<Integer>> edges,int s){
+      ArrayList<Integer>[] g=new ArrayList[n+1];
+         for(int i=1;i<=n;i++)
+             g[i]=new ArrayList<>();
+         for(List<Integer> e:edges){
+      int a=e.get(0);
+      int b=e.get(1);
+     g[a].add(b);
+     g[b].add(a);
+}
+    int[] d=new int[n+1];
+    Arrays.fill(d,-1);
+    Queue<int[]> q=new LinkedList<>();
+    q.add(new int[]{s,0});
+   d[s]=0;
+   while(!q.isEmpty()){
+      int[] a=q.poll();
+      int node=a[0],dis=a[1];
+      for(int x:g[node]){
+         if(d[x]==-1){
+           d[x]=dis+6;
+           q.add(new int[]{x,dis+6});
+        }
+      }
+   }
+    ArrayList<Integer> ans=new ArrayList<>();
+      for(int i=1;i<=n;i++){
+        if(i!=s)
+           ans.add(d[i]);
+  }
+      return ans;
+}
+public static void main(String[] args){
+   Scanner sc=new Scanner(System.in);
+   int t=sc.nextInt();
+   while(t-->0){
+     int n=sc.nextInt();
+     int m=sc.nextInt();
+   List<List<Integer>> edges=new ArrayList<>();
+     for(int i=0;i<m;i++){
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        edges.add(Arrays.asList(a,b));
+     }
+  int s=sc.nextInt();
+  List<Integer> ans=bfs(n,m,edges,s);
+  for(int x:ans)
+      System.out.print(x+" ");
+      System.out.println();
+ }
+sc.close();
+}
+}
