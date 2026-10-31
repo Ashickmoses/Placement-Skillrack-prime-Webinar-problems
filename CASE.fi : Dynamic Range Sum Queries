@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long find(vector<long long>& seg,int node,int nl,int nr,int ql,int qr){
+    if(nl>qr || nr<ql){
+        return 0;
+    }
+    if(nl>=ql && nr<=qr){
+        return seg[node];
+    }
+    int mid=(nl+nr)/2;
+    return find(seg,node*2,nl,mid,ql,qr)+find(seg,node*2+1,mid+1,nr,ql,qr);
+}
+void update(vector<long long>& seg,int node ,int nl,int nr,int ql,int qr,int val){
+     if(nl>qr || nr<ql){
+        return;
+    }
+    if(nl>=ql && nr<=qr){
+     seg[node]=val;
+     return;
+    }
+     int mid=(nl+nr)/2;
+     update(seg,node*2,nl,mid,ql,qr,val);
+     update(seg,node*2+1,mid+1,nr,ql,qr,val);
+     seg[node]=seg[node*2]+seg[node*2+1];
+}
+int main(){
+    int n,q;
+    cin>>n>>q;
+    int newn=1;
+    while(newn<n){
+        newn=newn*2;
+    }
+    vector<long long> seg(newn*2,0);
+    for(int i=newn;i<newn+n;i++){
+        cin>>seg[i];
+    }
+    for(int i=newn-1;i>=1;i--){
+        seg[i]=seg[i+i]+seg[i+i+1];
+    }
+    n=newn;
+    while(q--){
+        int qt;
+        cin>>qt;
+        if(qt==1){
+            int k,u;
+            cin>>k >> u;
+            update(seg,1,1,n,k,k,u);
+        }
+        else{
+            int ql,qr;
+            cin>>ql>>qr;
+            cout<<find(seg,1,1,n,ql,qr)<<endl;
+        }
+    }
+}
