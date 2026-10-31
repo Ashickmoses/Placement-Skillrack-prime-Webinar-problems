@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long find(vector<long long>& seg,int node,int nl,int nr,int ql,int qr){
+    if(nl>qr || nr<ql){
+        return 0;
+    }
+    if(nl>=ql && nr<=qr){
+        return seg[node];
+    }
+    int mid=(nl+nr)/2;
+    long long lc=find(seg,node*2,nl,mid,ql,qr);
+    long long rc=find(seg,node*2+1,mid+1,nr,ql,qr);
+    return lc+rc;
+}
+int main(){
+    int n,q;
+    cin>>n>>q;
+    int newn=1;
+    while(newn<n){
+        newn=newn*2;
+    }
+    vector<long long> seg(newn*2,0);
+    for(int i=newn;i<newn+n;i++){
+        cin>>seg[i];
+    }
+    for(int i=newn-1;i>=1;i--){
+        seg[i]=seg[i+i]+seg[i+i+1];
+    }
+    n=newn;
+    while(q--){
+            int ql,qr;
+            cin>>ql>>qr;
+            cout<<find(seg,1,1,n,ql,qr)<<endl;
+        }
+    }
